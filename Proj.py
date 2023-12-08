@@ -17,12 +17,9 @@ def get_posts_by_user(userId,lon,lat):
     """Gets all posts of the user userId."""
 
     # Create a dictionary with key:value pairs to pass in the URL query string
-    params = {'userId': userId}
+    params = {'lat': lat}
     response = requests.get(f"{base_url}/posts", params=params)
-    lat = {'lat': userId}
-    latv = requests.get(f"{base_url}/posts", lat=lat)
-    lon = {'lon': userId}
-    lonv = requests.get(f"{base_url}/posts", lon=lon)
+    
         # The params= argument is encoded in the URL query string.
 
     print(response.request.url)  # Uncomment to see the constructed URL
