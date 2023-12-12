@@ -1,5 +1,5 @@
 import requests
-
+print('lol'. split(','))
 # Base URL for the API
 base_url = "https://jsonplaceholder.typicode.com"
 
