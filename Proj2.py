@@ -51,16 +51,25 @@ def formated_location(URL, latitude, longitude, radius, categories):
 
 
 def sort_attractions(lst , x):
-    if x == 0:
-        lst.sort(key=lambda y: y[0])
-    elif x == 1:
-        lst.sort(key=lambda y: y[1])
-    elif x == 2:
-        lst.sort(key=lambda y: y[2])
-    elif x == 3:
-        lst.sort(key=lambda y: y[5])
+    null_verification=1
+    for n in lst:
+        print(n[x])
+        if n[x]==None:
+            
+            null_verification=0        
+    if null_verification == 1:           
+        if x == 0:   
+            lst.sort(key=lambda y: y[0])
+        elif x == 1:
+            lst.sort(key=lambda y: y[1])
+        elif x == 2:
+            lst.sort(key=lambda y: y[2])
+        elif x == 3:
+            lst.sort(key=lambda y: y[5])
+    else:
+        print('Não foi possível dar sort, api incompleta') 
     for i in lst:
-        print(f"{i}")
+        print(i)
     return lst
 
 
