@@ -53,7 +53,6 @@ def formated_location(URL, latitude, longitude, radius, categories):
 def sort_attractions(lst , x):
     null_verification=1
     for n in lst:
-        print(n[x])
         if n[x]==None:
             
             null_verification=0        
