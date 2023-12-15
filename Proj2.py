@@ -54,7 +54,7 @@ def formated_location(URL, latitude, longitude, radius, categories):
 def available_categories():
         lst = []
         print("Check the available categories below:\n")
-        with open("FP/categories.txt", "r") as f:
+        with open("categories.txt", "r") as f:
             for line in f:
                 x = line.strip()
                 u = x.split(".")    
@@ -129,7 +129,7 @@ def main():
     coordinates = input(
         "Insert the latitude and longitude (split them with a comma): "
     ).split(",")
-    radius = int(input("Insert the radius: "))
+    radius = int(input("Insert the radius(km): "))*1000
     categories = input("Insert the categories (split them with a comma): ").split(",")
     latitude = float(coordinates[0])
     longitude = float(coordinates[1])
