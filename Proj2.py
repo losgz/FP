@@ -81,9 +81,7 @@ def sort_attractions(lst, x):
     else:
         print("Não foi possível dar sort, api incompleta")
     for i in lst:
-        for h in i:
-            if h == None:
-                h = "Information not available"
+        for h in i:         
             if i.index(h) == 0:
                 print(f"Details of the location:\n\n{h}")
             elif i.index(h) == len(i) - 1:
