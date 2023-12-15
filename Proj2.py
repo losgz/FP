@@ -46,8 +46,7 @@ def formated_location(URL, latitude, longitude, radius, categories):
                 )
                 lst.append(tpl)
                 counter += 1
-        if lst == []:
-            print("No attractions found")
+        
     return counter, lst
 
 
@@ -79,7 +78,7 @@ def sort_attractions(lst, x):
         elif x == 3:
             lst.sort(key=lambda y: y[5])
     else:
-        print("Não foi possível dar sort, api incompleta")
+        print("'Sort' not possible, incomplete api")
     for i in lst:
         for h in i:         
             if i.index(h) == 0:
@@ -101,10 +100,14 @@ def avg_distance(lst):
 
 def print_all(option, URL, latitude, longitude, radius, categories):
     try:
-        x = formated_location(URL, latitude, longitude, radius, categories)
-        sort_attractions(x[1], option)
-        print(f"Number of locations: {x[0]}")
-        print(f"Average distance: {avg_distance(x[1]):.4f}")
+        x = formated_location(URL, latitude, longitude, radius, categories)   
+        if x[1] != []: 
+            sort_attractions(x[1], option)
+            print(f"Number of locations: {x[0]}")
+            print(f"Average distance: {avg_distance(x[1]):.4f}")
+        else:
+            print("No attractions found")
+       
     except:
         print("Unable to retrieve information, please try again.")
         main()
