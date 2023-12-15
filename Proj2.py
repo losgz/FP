@@ -61,8 +61,23 @@ def available_categories():
                     lst.append(x)
                     print(x,end=". ")
 
-
-
+def check_categories(category):
+    lst = []
+    with open("categories.txt", "r") as f:
+        for line in f:
+            x = line.strip()
+            u = x.split(".")    
+            if x not in lst and u[-1] not in lst:
+                lst.append(x)   
+    new_category=category
+    for n in category:
+        if n not in lst:
+            print(('\n').join(lst))
+            print(f'invalid category({n}), please choose an existent one from the list above')
+            new_category=input("Insert the categories (split them with a comma): ").split(",")
+            check_categories(new_category)
+        
+    return new_category
 def sort_attractions(lst, x):
     null_verification = 1
     for n in lst:
@@ -128,10 +143,10 @@ def main():
         option = int(option)
 
     coordinates = input(
-        "Insert the latitude and longitude (split them with a comma): "
-    ).split(",")
+        "Insert the latitude and longitude (split them with a comma): ").split(",")
     radius = int(input("Insert the radius(km): "))*1000
     categories = input("Insert the categories (split them with a comma): ").split(",")
+    categories = check_categories(categories)
     latitude = float(coordinates[0])
     longitude = float(coordinates[1])
     print()
