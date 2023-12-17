@@ -46,38 +46,70 @@ def formated_location(URL, latitude, longitude, radius, categories):
                 )
                 lst.append(tpl)
                 counter += 1
-        
+
     return counter, lst
 
 
 def available_categories():
-        lst = []
-        print("Check the available categories below:\n")
-        with open("categories.txt", "r") as f:
-            for line in f:
-                x = line.strip()
-                u = x.split(".")    
-                if x not in lst and u[0] not in lst:
-                    lst.append(x)
-                    print(x,end=". ")
-
-def check_categories(category):
     lst = []
     with open("categories.txt", "r") as f:
         for line in f:
             x = line.strip()
-            u = x.split(".")    
-            if x not in lst and u[-1] not in lst:
-                lst.append(x)   
-    new_category=category
-    for n in category:
-        if n not in lst:
-            print(('\n').join(lst))
-            print(f'invalid category({n}), please choose an existent one from the list above')
-            new_category=input("Insert the categories (split them with a comma): ").split(",")
+            u = x.split(".")
+            if x not in lst and u[0] not in lst:
+                lst.append(x)
+    return lst
+
+
+def available_sub_categories(categories):
+    subs = []
+    for word in categories:
+        lst = available_categories()
+        with open("categories.txt", "r") as f:
+            for line in f:
+                x = line.strip()
+                u = x.split(".")
+                if x not in lst and u[0] in lst and u[0] == word:
+                    subs.append(x)
+    return subs
+
+
+def check_sub_categories(cat):
+    answer = input("Do you want to check the available sub-categories? (Y/N): ").upper()
+    if answer == "Y":
+        print("\nCheck the available sub-categories below:\n")
+        sub = available_sub_categories(cat)
+        for i in sub:
+            if i != sub[-1]:
+                print(i, end=" | ")
+            else:
+                print(i, end="\n\n")
+        x = input("Insert the sub-categories (split them with a comma): ").split(",")
+        return x
+    elif answer != "N":
+        print("Invalid input, please choose Y or N.")
+        check_sub_categories(cat)
+    else:
+        return cat
+
+
+def check_categories(category):
+    cat = available_categories()
+    sub_cat = available_sub_categories(category)
+    for word in category:
+        if word not in sub_cat and word not in cat:
+            print((" | ").join(cat))
+            print(
+                f"'{word}' is an invalid category, please choose an existent one from the list above"
+            )
+            new_category = input(
+                "Insert the categories (split them with a comma): "
+            ).split(",")
             check_categories(new_category)
-        
-    return new_category
+
+    return category
+
+
 def sort_attractions(lst, x):
     null_verification = 1
     for n in lst:
@@ -95,7 +127,7 @@ def sort_attractions(lst, x):
     else:
         print("'Sort' not possible, incomplete api")
     for i in lst:
-        for h in i:         
+        for h in i:
             if i.index(h) == 0:
                 print(f"Details of the location:\n\n{h}")
             elif i.index(h) == len(i) - 1:
@@ -115,14 +147,14 @@ def avg_distance(lst):
 
 def print_all(option, URL, latitude, longitude, radius, categories):
     try:
-        x = formated_location(URL, latitude, longitude, radius, categories)   
-        if x[1] != []: 
+        x = formated_location(URL, latitude, longitude, radius, categories)
+        if x[1] != []:
             sort_attractions(x[1], option)
             print(f"Number of locations: {x[0]}")
             print(f"Average distance: {avg_distance(x[1]):.4f}")
         else:
             print("No attractions found")
-       
+
     except:
         print("Unable to retrieve information, please try again.")
         main()
@@ -131,7 +163,10 @@ def print_all(option, URL, latitude, longitude, radius, categories):
 def main():
     print("Welcome to our program!")
     print("Based on your preference, we will show you the best attractions for you.")
-    available_categories()
+    print("Check the available categories below:\n")
+    cat = available_categories()
+    for i in cat:
+        print(i, end=" | ")
     print(
         "\n\nDo you want to sort the attractions by: \n[0]-Name \n[1]-Country\n[2]-City\n[3]-Distance\n"
     )
@@ -143,9 +178,11 @@ def main():
         option = int(option)
 
     coordinates = input(
-        "Insert the latitude and longitude (split them with a comma): ").split(",")
-    radius = int(input("Insert the radius(km): "))*1000
+        "Insert the latitude and longitude (split them with a comma): "
+    ).split(",")
+    radius = int(input("Insert the radius(km): ")) * 1000
     categories = input("Insert the categories (split them with a comma): ").split(",")
+    categories = check_sub_categories(categories)
     categories = check_categories(categories)
     latitude = float(coordinates[0])
     longitude = float(coordinates[1])
