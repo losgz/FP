@@ -8,6 +8,7 @@ URL = "https://api.geoapify.com/v2/places"
 
 def location(url, latitude, longitude, radius, categories):
     dic = f"?categories={categories}&filter=circle:{longitude},{latitude},{radius}&limit=25&apiKey=ac1fbe548edb4eb2bf8f5642519ac399"
+    print(URL+dic)
     response = requests.get(f"{url+dic}")
     return response.json()
 
