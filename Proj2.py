@@ -85,6 +85,11 @@ def check_sub_categories(cat):
             else:
                 print(i, end="\n\n")
         x = input("Insert the sub-categories (split them with a comma): ").split(",")
+        for n in range(0,len(x)):
+            if x[n] not in sub:
+                while x[n] not in sub:
+                    print(f'{x[n]} is not in the list')
+                    x[n] = input("Insert the sub-categorie(only the new one): ")        
         return x
     elif answer != "N":
         print("Invalid input, please choose Y or N.")
@@ -95,9 +100,9 @@ def check_sub_categories(cat):
 
 def check_categories(category):
     cat = available_categories()
-    sub_cat = available_sub_categories(category)
+    # sub_cat = available_sub_categories(category)
     for word in category:
-        if word not in sub_cat and word not in cat:
+        if word not in cat:
             print((" | ").join(cat))
             print(
                 f"'{word}' is an invalid category, please choose an existent one from the list above"
@@ -177,13 +182,14 @@ def main():
     else:
         option = int(option)
 
-    coordinates = input(
-        "Insert the latitude and longitude (split them with a comma): "
-    ).split(",")
+    coordinates = input("Insert the latitude and longitude (split them with a comma): ").split(",")
+    while len(coordinates)!=2 or coordinates[0]=='' or coordinates[1]=='':
+        print('Invalid coordinates, please insert correct ones')
+        coordinates = input("Insert the latitude and longitude (split them with a comma): ").split(",")
     radius = int(input("Insert the radius(km): ")) * 1000
     categories = input("Insert the categories (split them with a comma): ").split(",")
-    categories = check_sub_categories(categories)
     categories = check_categories(categories)
+    categories = check_sub_categories(categories)
     latitude = float(coordinates[0])
     longitude = float(coordinates[1])
     print()
