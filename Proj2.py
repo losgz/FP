@@ -100,7 +100,6 @@ def check_sub_categories(cat):
 
 def check_categories(category):
     cat = available_categories()
-    # sub_cat = available_sub_categories(category)
     for word in category:
         if word not in cat:
             print((" | ").join(cat))
